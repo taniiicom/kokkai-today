@@ -40,11 +40,24 @@ def fetch_speeches(date, start_record=1, maximum_records=100):
 
 def parse_text(text):
     tokenizer = Tokenizer()
-    words = [
-        token.surface for token in tokenizer.tokenize(text)
-        # 名詞のみを抽出し、ホワイトスペースや記号は除外
-        if token.part_of_speech.startswith("名詞") and token.surface.strip()
-    ]
+    words = []
+    temp_word = ""
+
+    for token in tokenizer.tokenize(text):
+        # 名詞であれば一時的に保存し、次の名詞に連結
+        if token.part_of_speech.startswith("名詞"):
+            temp_word += token.surface
+        else:
+            # 名詞の連続が終わった場合、保存してリセット
+            if temp_word:
+                words.append(temp_word)
+                temp_word = ""
+    
+    # 最後の名詞の連続を処理
+    if temp_word:
+        words.append(temp_word)
+
+    # 出現回数をカウントして返す
     return Counter(words)
 
 def save_to_postgres(date, word_counts):
@@ -54,7 +67,6 @@ def save_to_postgres(date, word_counts):
     
     # 各単語の出現回数を挿入または更新
     for word, count in word_counts.items():
-        # 既存レコードの存在を確認し、存在すれば更新、なければ挿入
         cursor.execute("""
             INSERT INTO word_counts (date, word, count)
             VALUES (%s, %s, %s)
