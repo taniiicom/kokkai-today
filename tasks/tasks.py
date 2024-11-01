@@ -39,17 +39,26 @@ def fetch_speeches(date, start_record=1, maximum_records=100):
             break
     return speeches
 
-def remove_speaker_name(text):
-    # 行頭から最初のスペースまでの部分を削除
-    return re.sub(r"^○.*?\s", "", text)
+def remove_speaker_name_and_skip_lines(text):
+    # 全角スペースが2つ以上で始まる行をスキップ
+    lines = text.splitlines()
+    filtered_lines = []
+    for line in lines:
+        # 全角スペースが2つ以上で始まる行を除外
+        if re.match(r"^　{2,}", line):
+            continue
+        # 行頭から最初のスペースまでの部分（人名部分）を削除
+        line = re.sub(r"^○.*?\s", "", line)
+        filtered_lines.append(line)
+    return "\n".join(filtered_lines)
 
 def parse_text(text):
     tokenizer = Tokenizer()
     words = []
     temp_word = ""
 
-    # テキストから人名部分を除去
-    text = remove_speaker_name(text)
+    # テキストから人名部分と不要な行を除去
+    text = remove_speaker_name_and_skip_lines(text)
 
     for token in tokenizer.tokenize(text):
         # 名詞であれば一時的に保存し、次の名詞に連結
@@ -92,7 +101,7 @@ def process_speeches(date):
     all_word_counts = Counter()
     
     with ThreadPoolExecutor() as executor:
-        # 人名除去と形態素解析を並列で実行
+        # 人名除去、不要行除外、形態素解析を並列で実行
         results = executor.map(parse_text, [speech['speech'] for speech in speeches])
         for word_count in results:
             all_word_counts.update(word_count)
