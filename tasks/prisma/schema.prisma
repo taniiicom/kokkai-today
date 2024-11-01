@@ -5,14 +5,12 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
+  provider = "prisma-client-py"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas = ["tomorrow_index"]
 }
 
 model WordCount {
@@ -23,6 +21,4 @@ model WordCount {
 
   @@unique([date, word])
   @@map("word_counts")
-
-  @@schema("tomorrow_index")
 }
