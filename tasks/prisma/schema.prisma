@@ -6,9 +6,23 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas = ["tomorrow_index"]
+}
+
+model WordCount {
+  id    Int    @id @default(autoincrement())
+  date  DateTime
+  word  String
+  count Int
+
+  @@unique([date, word])
+  @@map("word_counts")
+
+  @@schema("tomorrow_index")
 }
