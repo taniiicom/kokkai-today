@@ -2,3 +2,4 @@ requests
 janome
 prisma
 python-dotenv
+psycopg2-binary
