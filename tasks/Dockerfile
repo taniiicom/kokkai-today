@@ -1,7 +1,7 @@
 # ベースイメージとしてPython 3.9を使用
 FROM python:3.9-slim
 
-# 作業ディレクトリを設定
+# 作業ディレクトリの作成と移動
 WORKDIR /app
 
 # 必要なパッケージをインストール
@@ -9,6 +9,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
+
+# pipをアップグレード
+RUN pip install --upgrade pip
 
 # Pythonの依存パッケージファイルをコピー
 COPY requirements.txt .
