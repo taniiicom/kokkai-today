@@ -1,0 +1,4 @@
+requests
+janome
+prisma
+prisma-client-py
