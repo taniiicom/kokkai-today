@@ -1,4 +1,5 @@
 import os
+import re
 import requests
 from janome.tokenizer import Tokenizer
 from concurrent.futures import ThreadPoolExecutor
@@ -38,10 +39,17 @@ def fetch_speeches(date, start_record=1, maximum_records=100):
             break
     return speeches
 
+def remove_speaker_name(text):
+    # 行頭から最初のスペースまでの部分を削除
+    return re.sub(r"^○.*?\s", "", text)
+
 def parse_text(text):
     tokenizer = Tokenizer()
     words = []
     temp_word = ""
+
+    # テキストから人名部分を除去
+    text = remove_speaker_name(text)
 
     for token in tokenizer.tokenize(text):
         # 名詞であれば一時的に保存し、次の名詞に連結
@@ -84,6 +92,7 @@ def process_speeches(date):
     all_word_counts = Counter()
     
     with ThreadPoolExecutor() as executor:
+        # 人名除去と形態素解析を並列で実行
         results = executor.map(parse_text, [speech['speech'] for speech in speeches])
         for word_count in results:
             all_word_counts.update(word_count)
