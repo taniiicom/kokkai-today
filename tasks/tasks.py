@@ -17,6 +17,8 @@ def fetch_speeches(date, start_record=1, maximum_records=100):
     base_url = "https://kokkai.ndl.go.jp/api/speech"
     speeches = []
     while True:
+        print(f"Fetching records from {start_record} to {start_record + maximum_records - 1} for date {date}...")
+        
         params = {
             "from": date,
             "until": date,
@@ -25,22 +27,27 @@ def fetch_speeches(date, start_record=1, maximum_records=100):
             "recordPacking": "json"
         }
         response = requests.get(base_url, params=params)
+        
         if response.status_code == 200:
             data = response.json()
             if "speechRecord" in data:
                 speeches.extend(data['speechRecord'])
                 start_record += maximum_records
+                print(f"Retrieved {len(data['speechRecord'])} records. Total records so far: {len(speeches)}")
+                
+                # 全てのデータを取得したら終了
                 if len(data['speechRecord']) < maximum_records:
+                    print("All records for the date have been fetched.")
                     break
             else:
+                print("No more speech records found.")
                 break
         else:
-            print(f"Failed to fetch data for {date}")
+            print(f"Failed to fetch data for {date}. Status code: {response.status_code}")
             break
     return speeches
 
 def remove_speaker_name_and_skip_lines(text):
-    # 全角スペースが2つ以上で始まる行をスキップ
     lines = text.splitlines()
     filtered_lines = []
     for line in lines:
@@ -95,17 +102,20 @@ def save_to_postgres(date, word_counts):
     conn.commit()
     cursor.close()
     conn.close()
+    print(f"Data for {date} has been saved to the database.")
 
 def process_speeches(date):
-    speeches = fetch_speeches(date)
+    speeches = fetch_speeches(date, start_record=1, maximum_records=100)
     all_word_counts = Counter()
     
+    print(f"Starting text parsing and word count aggregation for {len(speeches)} speeches...")
     with ThreadPoolExecutor() as executor:
-        # 人名除去、不要行除外、形態素解析を並列で実行
         results = executor.map(parse_text, [speech['speech'] for speech in speeches])
-        for word_count in results:
+        for idx, word_count in enumerate(results, start=1):
             all_word_counts.update(word_count)
-    
+            if idx % 10 == 0 or idx == len(speeches):
+                print(f"Processed {idx}/{len(speeches)} speeches.")
+
     save_to_postgres(date, all_word_counts)
 
 def get_valid_date():
@@ -120,4 +130,5 @@ def get_valid_date():
 
 if __name__ == "__main__":
     target_date = get_valid_date()  # 日付の入力を待機
+    print(f"Processing speeches for date: {target_date}")
     process_speeches(target_date)
