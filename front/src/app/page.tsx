@@ -14,7 +14,7 @@ interface WordCount {
 }
 
 export default function Home() {
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState("2024-01-26");
   const [wordCounts, setWordCounts] = useState<WordCount[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
