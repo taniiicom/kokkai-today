@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "TS_NODE_IGNORE_DIAGNOSTICS": "1"
+    }
+  }
+}
