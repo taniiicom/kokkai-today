@@ -4,7 +4,9 @@
 import { useState, useEffect } from "react";
 import { Input, Box, Spinner, Text } from "@chakra-ui/react";
 import axios from "axios";
-import WordFlow from "../components/WordFlow";
+import WordFlow from "@/components/WordFlow";
+import { isValidDateSlug } from "@/lib/slugs/date-slug";
+import { useRouter } from "next/navigation";
 
 interface WordCount {
   id: number;
@@ -13,11 +15,23 @@ interface WordCount {
   count: number;
 }
 
-export default function Home() {
+const HomePage: React.FC<{
+  params: { slugs: string[] };
+}> = ({ params: { slugs } }) => {
   const [selectedDate, setSelectedDate] = useState("2024-01-26");
   const [wordCounts, setWordCounts] = useState<WordCount[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isValidDateSlug(slugs[0])) {
+      setSelectedDate(slugs[0]);
+    } else {
+      router.push("/");
+    }
+  }, [slugs, router]);
 
   useEffect(() => {
     if (selectedDate) {
@@ -37,6 +51,9 @@ export default function Home() {
     } else {
       setWordCounts([]);
     }
+
+    // router.push(`/${leafPath.host}/${leafPath.owner}/${leafPath.repo}/${path}`);
+    window.history.replaceState(null, "", `/${selectedDate}`);
   }, [selectedDate]);
 
   return (
@@ -60,4 +77,6 @@ export default function Home() {
       ) : null}
     </Box>
   );
-}
+};
+
+export default HomePage;
