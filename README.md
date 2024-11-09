@@ -6,20 +6,21 @@ https://github.com/user-attachments/assets/42bf6c71-c323-4249-bed0-ba6d10591cf5
 
 ## media coverage. / メディア掲載
 
-以下のメディアで紹介していただきました. 
+以下のメディアで紹介していただきました.
 
 - Impress Watch
   https://internet.watch.impress.co.jp/docs/yajiuma/1637438.html
-- dメニュー
+- d メニュー
   https://topics.smt.docomo.ne.jp/article/internet_watch/trend/internet_watch-1637438?redirect=1
 - goo ニュース
   https://news.goo.ne.jp/article/internet_watch/trend/internet_watch-1637438.html
 
-## contact. / 問い合わせ
+## community. / コミュニティ
 
-- Taniii ([@taniiicom](https://github.com/taniiicom))
-  X: [@taniiicom](https://x.com/taniiicom)
-  email: mail@taniii.com
+公式 Discord にお気軽にご参加ください!  
+Join our official Discord server!
+
+- https://discord.gg/TReYqKs5JW
 
 ## license. / ライセンス
 
@@ -30,6 +31,12 @@ https://github.com/user-attachments/assets/42bf6c71-c323-4249-bed0-ba6d10591cf5
 Feel free to use this for visualizations in various genres or fields as you like.
 I’d appreciate it if you could include the original link and @taniiicom in the credits of derivative apps!
 Otherwise, please feel free to use it under the MIT License.
+
+## contact. / 問い合わせ
+
+- Taniii ([@taniiicom](https://github.com/taniiicom))  
+  X: [@taniiicom](https://x.com/taniiicom)  
+  email: mail@taniii.com
 
 ## howto. / つかいかた
 
