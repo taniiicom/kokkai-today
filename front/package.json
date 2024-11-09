@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/react": "^2.10.4",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
