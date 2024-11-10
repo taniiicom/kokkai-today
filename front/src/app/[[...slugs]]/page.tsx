@@ -7,7 +7,6 @@ import axios from "axios";
 import WordFlow from "@/components/WordFlow";
 import { isValidDateSlug } from "@/lib/slugs/date-slug";
 import { useRouter } from "next/navigation";
-import DatePicker from "@/components/atom/DatePicker";
 
 interface WordCount {
   id: number;
