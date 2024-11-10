@@ -7,6 +7,7 @@ import axios from "axios";
 import WordFlow from "@/components/WordFlow";
 import { isValidDateSlug } from "@/lib/slugs/date-slug";
 import { useRouter } from "next/navigation";
+import DatePicker from "@/components/atom/DatePicker";
 
 interface WordCount {
   id: number;
@@ -26,7 +27,7 @@ const HomePage: React.FC<{
   const router = useRouter();
 
   useEffect(() => {
-    if (isValidDateSlug(slugs[0])) {
+    if (slugs && slugs.length > 0 && isValidDateSlug(slugs[0])) {
       setSelectedDate(slugs[0]);
     } else {
       router.push("/");
