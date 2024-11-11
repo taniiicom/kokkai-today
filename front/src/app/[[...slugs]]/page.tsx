@@ -7,6 +7,7 @@ import axios from "axios";
 import WordFlow from "@/components/WordFlow";
 import { isValidDateSlug } from "@/lib/slugs/date-slug";
 import { useRouter } from "next/navigation";
+import SidePanel from "@/components/org/SidePanel";
 
 interface WordCount {
   id: number;
@@ -58,6 +59,7 @@ const HomePage: React.FC<{
 
   return (
     <Box p={4} height="100%">
+      <SidePanel></SidePanel>
       <Input
         type="date"
         value={selectedDate}
