@@ -80,10 +80,9 @@ const SidePanel = () => {
             #国会Today
           </DrawerHeader>
           <DrawerBody>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <FlatDatePicker />
+            <Box py={4}>
+              <FlatDatePicker />
+            </Box>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
