@@ -4,6 +4,7 @@ import "./globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "@/theme/theme";
 import Script from "next/script";
+import { RecoilProvider } from "@/components/recoil/RecoilProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -49,7 +50,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        <RecoilProvider>
+          <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        </RecoilProvider>
       </body>
     </html>
   );
