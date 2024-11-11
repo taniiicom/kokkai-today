@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "今日の国会 - kokkai-today",
+  title: "#国会Today - kokkai-today / 今日の国会",
   description:
     "今日1日, 国会で話されたテーマを, 国会議事録の全発言から抽出しビジュアル化しています",
 };
