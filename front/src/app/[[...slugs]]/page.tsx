@@ -32,7 +32,7 @@ const HomePage: React.FC<{
     if (slugs && slugs.length > 0 && isValidDateSlug(slugs[0])) {
       setSelectedDate(slugs[0]);
     } else {
-      router.push("/");
+      router.push("/" + new Date().toISOString().slice(0, 10));
     }
   }, [slugs, router]);
 
