@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { selectedDateState } from "@/states/selectedDateState";
-import { Input, Box, Spinner, Text } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 import axios from "axios";
 import WordFlow from "@/components/WordFlow";
 import { isValidDateSlug } from "@/lib/slugs/date-slug";
