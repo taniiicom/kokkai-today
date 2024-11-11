@@ -3,9 +3,11 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
+  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   IconButton,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { CgMenuMotion } from "react-icons/cg";
@@ -84,6 +86,12 @@ const SidePanel = () => {
               <FlatDatePicker />
             </Box>
           </DrawerBody>
+          <DrawerFooter>
+            <Box display="flex" flexDirection="column" width="100%">
+              <Text fontSize={17}>Taniii @taniiicom</Text>
+              <Text fontSize={13}>source: 国立国会図書館 国会議事録</Text>
+            </Box>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
