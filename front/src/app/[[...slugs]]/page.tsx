@@ -2,6 +2,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { selectedDateState } from "@/states/selectedDateState";
 import { Input, Box, Spinner, Text } from "@chakra-ui/react";
 import axios from "axios";
 import WordFlow from "@/components/WordFlow";
@@ -19,7 +21,7 @@ interface WordCount {
 const HomePage: React.FC<{
   params: { slugs: string[] };
 }> = ({ params: { slugs } }) => {
-  const [selectedDate, setSelectedDate] = useState("2024-01-26");
+  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const [wordCounts, setWordCounts] = useState<WordCount[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
