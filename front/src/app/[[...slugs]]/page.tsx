@@ -60,16 +60,12 @@ const HomePage: React.FC<{
   }, [selectedDate]);
 
   return (
-    <Box p={4} height="100%">
-      <SidePanel></SidePanel>
-      <Input
-        type="date"
-        value={selectedDate}
-        onChange={(e) => setSelectedDate(e.target.value)}
-        placeholder="日付を選択してください"
-      />
+    <Box height="100%" p={0}>
+      <SidePanel />
       {loading ? (
-        <Spinner mt={4} />
+        <Box pl="100px" pt={7}>
+          <Spinner mt={4} />
+        </Box>
       ) : error ? (
         <Text color="red.500" mt={4}>
           {error}
@@ -77,7 +73,12 @@ const HomePage: React.FC<{
       ) : wordCounts.length > 0 ? (
         <WordFlow wordCounts={wordCounts} />
       ) : selectedDate ? (
-        <Text mt={4}>データがありません</Text>
+        <Box pl="100px" pt={7}>
+          <Text>
+            データがありません. <br />
+            他の日を選択してください.
+          </Text>
+        </Box>
       ) : null}
     </Box>
   );

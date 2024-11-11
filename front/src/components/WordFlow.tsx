@@ -21,8 +21,8 @@ export default function WordFlow({ wordCounts }: WordFlowProps) {
     <Box
       position="relative"
       overflow="hidden"
-      width="100vw"
-      height="90vh" // 画面全体の高さ
+      width="100%"
+      height="100vh" // 画面全体の高さ
       mt={4}
     >
       {/* 下部に固定する背景画像 */}
@@ -55,9 +55,7 @@ export default function WordFlow({ wordCounts }: WordFlowProps) {
         fontSize="30px"
         fontFamily="Hiragino Kaku Gothic Pro, Meiryo, sans-serif" // 丸ゴシック系フォント
       >
-        #今日の国会
-        <br />
-        #明日の索引
+        #国会Today
       </Text>
 
       {/* 単語のアニメーション */}
