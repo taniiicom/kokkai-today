@@ -4,6 +4,7 @@ import "./globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "@/theme/theme";
 import Script from "next/script";
+import { RecoilProvider } from "@/components/recoil/RecoilProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,7 +18,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "今日の国会 - kokkai-today",
+  title: "#国会Today - kokkai-today / 今日の国会",
   description:
     "今日1日, 国会で話されたテーマを, 国会議事録の全発言から抽出しビジュアル化しています",
 };
@@ -49,7 +50,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        <RecoilProvider>
+          <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        </RecoilProvider>
       </body>
     </html>
   );
