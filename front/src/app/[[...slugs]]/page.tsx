@@ -68,13 +68,27 @@ const HomePage: React.FC<{
           <Spinner mt={4} />
         </Box>
       ) : error ? (
-        <Text color="red.500" mt={4}>
-          {error}
-        </Text>
+        <Box
+          width="100vw"
+          height="90vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Text color="red.500" mt={4}>
+            {error}
+          </Text>
+        </Box>
       ) : wordCounts.length > 0 ? (
         <WordFlow wordCounts={wordCounts} />
       ) : selectedDate ? (
-        <Box pl="100px" pt={7}>
+        <Box
+          width="100vw"
+          height="90vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
           <Text>
             データがありません. <br />
             他の日を選択してください.
