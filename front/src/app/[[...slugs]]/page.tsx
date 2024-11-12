@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { selectedDateState } from "@/states/selectedDateState";
+import { isLoadingState } from "@/states/isLoadingState";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import axios from "axios";
 import WordFlow from "@/components/WordFlow";
@@ -23,7 +24,7 @@ const HomePage: React.FC<{
 }> = ({ params: { slugs } }) => {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const [wordCounts, setWordCounts] = useState<WordCount[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useRecoilState(isLoadingState);
   const [error, setError] = useState("");
 
   const router = useRouter();
@@ -62,7 +63,7 @@ const HomePage: React.FC<{
   return (
     <Box height="100%" p={0}>
       <SidePanel />
-      {loading ? (
+      {isLoading ? (
         <Box pl="100px" pt={7}>
           <Spinner mt={4} />
         </Box>

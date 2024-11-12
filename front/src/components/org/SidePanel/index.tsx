@@ -8,6 +8,7 @@ import {
   DrawerOverlay,
   IconButton,
   Link,
+  Spinner,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -17,8 +18,10 @@ import React from "react";
 import FlatDatePicker from "@/components/mol/FlatDatePicker";
 import { selectedDateState } from "@/states/selectedDateState";
 import { useRecoilState } from "recoil";
+import { isLoadingState } from "@/states/isLoadingState";
 
 const SidePanel = () => {
+  const [isLoading] = useRecoilState(isLoadingState);
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -37,7 +40,10 @@ const SidePanel = () => {
       {/* [uiux][design][animation] スマホでは FAB のクリックで対応 ^^ */}
       <IconButton
         aria-label="toggle sidepanel"
-        icon={isOpen ? <BsArrowLeft /> : <CgMenuMotion />}
+        icon={
+          // [uiux][design][idea] SidePanel > Fab > isLoading 時に Spinner 表示するように ^^
+          isOpen ? <BsArrowLeft /> : isLoading ? <Spinner /> : <CgMenuMotion />
+        }
         position="fixed"
         top="20px"
         left="20px"
@@ -79,7 +85,7 @@ const SidePanel = () => {
         onClick={isOpen ? closeSidePanel : openSidePanel}
       >
         <Box p="15px"></Box>
-        <Text fontSize="60px" color="#777">
+        <Text fontSize="60px" color="#777" fontWeight="600">
           {new Date(selectedDate).getDate()}
         </Text>
         <Box>
