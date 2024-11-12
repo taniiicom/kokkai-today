@@ -14,8 +14,11 @@ import { CgMenuMotion } from "react-icons/cg";
 import { BsArrowLeft } from "react-icons/bs";
 import React from "react";
 import FlatDatePicker from "@/components/mol/FlatDatePicker";
+import { selectedDateState } from "@/states/selectedDateState";
+import { useRecoilState } from "recoil";
 
 const SidePanel = () => {
+  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // ホバー時にサイドパネルを開く
@@ -54,11 +57,42 @@ const SidePanel = () => {
         }}
       />
 
+      <Box
+        width="170px"
+        height="170px"
+        left="10px"
+        top="10px"
+        borderRadius={10}
+        zIndex="overlay"
+        bgColor="white"
+        position="fixed"
+        boxShadow="0px 6px 10px rgba(0, 0, 0, 0.15), 0px 1px 18px rgba(0, 0, 0, 0.1), 0px 3px 5px rgba(0, 0, 0, 0.2)"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        cursor="pointer"
+        transition="all 0.3s ease-out"
+        _hover={{ transform: "scale(1.03)" }}
+        onClick={isOpen ? closeSidePanel : openSidePanel}
+      >
+        <Box p="15px"></Box>
+        <Text fontSize="60px" color="#777">
+          {new Date(selectedDate).getDate()}
+        </Text>
+        <Box>
+          <Text fontSize="15px" color="#999">
+            {new Date(selectedDate).getFullYear()} -{" "}
+            {new Date(selectedDate).getMonth() + 1}
+          </Text>
+        </Box>
+      </Box>
+
       {/* [uiux][design] 左端 hover ですみやかに表示されるサイドパネル ^^ */}
       <Box
         position="absolute"
         height="100%"
-        width="70px"
+        width="100px"
         left="0px"
         onMouseEnter={openSidePanel}
         zIndex={10}
