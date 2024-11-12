@@ -7,6 +7,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   IconButton,
+  Link,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -57,6 +58,7 @@ const SidePanel = () => {
         }}
       />
 
+      {/* // [uiux][design] 日付が日めくりカレンダーのように強調されるように ^^ */}
       <Box
         width="170px"
         height="170px"
@@ -122,8 +124,12 @@ const SidePanel = () => {
           </DrawerBody>
           <DrawerFooter>
             <Box display="flex" flexDirection="column" width="100%">
-              <Text fontSize={17}>Taniii @taniiicom</Text>
-              <Text fontSize={13}>source: 国立国会図書館 国会議事録</Text>
+              <Link href="https://x.com/taniiicom" target="_blank">
+                <Text fontSize={17}>Taniii @taniiicom</Text>
+              </Link>
+              <Link href="https://kokkai.ndl.go.jp/#/" target="_blank">
+                <Text fontSize={13}>source: 国立国会図書館 国会会議録</Text>
+              </Link>
             </Box>
           </DrawerFooter>
         </DrawerContent>
