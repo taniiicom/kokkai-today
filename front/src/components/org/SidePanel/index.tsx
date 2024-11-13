@@ -16,6 +16,8 @@ import { CgMenuMotion } from "react-icons/cg";
 import { BsArrowLeft } from "react-icons/bs";
 import React from "react";
 import FlatDatePicker from "@/components/mol/FlatDatePicker";
+import GithubRepoCard from "@/components/org/GithubRepoCard";
+import TipsCard from "@/components/org/TipsCard";
 import { selectedDateState } from "@/states/selectedDateState";
 import { useRecoilState } from "recoil";
 import { isLoadingState } from "@/states/isLoadingState";
@@ -70,9 +72,9 @@ const SidePanel = () => {
         height="170px"
         left="10px"
         top="10px"
-        borderRadius={10}
+        borderRadius={30}
         zIndex="overlay"
-        bgColor="white"
+        bgColor="#ffffff00"
         position="fixed"
         boxShadow="0px 6px 10px rgba(0, 0, 0, 0.15), 0px 1px 18px rgba(0, 0, 0, 0.1), 0px 3px 5px rgba(0, 0, 0, 0.2)"
         display="flex"
@@ -126,6 +128,20 @@ const SidePanel = () => {
           <DrawerBody>
             <Box py={4}>
               <FlatDatePicker />
+            </Box>
+            <Box py={2}>
+              <GithubRepoCard
+                repoUrl="https://github.com/taniiicom/kokkai-today"
+                repoData={{
+                  full_name: "taniiicom/kokkai-today",
+                  description:
+                    "今日1日, 国会で話されたテーマを, 国会議事録の全発言から抽出しビジュアル化しています.",
+                  stargazers_count: 1,
+                }}
+              />
+            </Box>
+            <Box>
+              <TipsCard url="https://taniiicom.fanbox.cc/plans" />
             </Box>
           </DrawerBody>
           <DrawerFooter>
