@@ -2,9 +2,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { selectedDateState } from "@/states/selectedDateState";
-import { Box, Spinner, Text } from "@chakra-ui/react";
+import { isLoadingState } from "@/states/isLoadingState";
+import { Box, Text } from "@chakra-ui/react";
 import axios from "axios";
 import WordFlow from "@/components/WordFlow";
 import { isValidDateSlug } from "@/lib/slugs/date-slug";
@@ -23,7 +24,7 @@ const HomePage: React.FC<{
 }> = ({ params: { slugs } }) => {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const [wordCounts, setWordCounts] = useState<WordCount[]>([]);
-  const [loading, setLoading] = useState(false);
+  const setLoading = useSetRecoilState(isLoadingState);
   const [error, setError] = useState("");
 
   const router = useRouter();
@@ -62,18 +63,28 @@ const HomePage: React.FC<{
   return (
     <Box height="100%" p={0}>
       <SidePanel />
-      {loading ? (
-        <Box pl="100px" pt={7}>
-          <Spinner mt={4} />
+      {error ? (
+        <Box
+          width="100vw"
+          height="90vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Text color="red.500" mt={4}>
+            {error}
+          </Text>
         </Box>
-      ) : error ? (
-        <Text color="red.500" mt={4}>
-          {error}
-        </Text>
       ) : wordCounts.length > 0 ? (
         <WordFlow wordCounts={wordCounts} />
       ) : selectedDate ? (
-        <Box pl="100px" pt={7}>
+        <Box
+          width="100vw"
+          height="90vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
           <Text>
             データがありません. <br />
             他の日を選択してください.
