@@ -24,7 +24,7 @@ import { isLoadingState } from "@/states/isLoadingState";
 
 const SidePanel = () => {
   const [isLoading] = useRecoilState(isLoadingState);
-  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
+  const [selectedDate] = useRecoilState(selectedDateState);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // ホバー時にサイドパネルを開く

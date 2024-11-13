@@ -2,10 +2,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { selectedDateState } from "@/states/selectedDateState";
 import { isLoadingState } from "@/states/isLoadingState";
-import { Box, Spinner, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import axios from "axios";
 import WordFlow from "@/components/WordFlow";
 import { isValidDateSlug } from "@/lib/slugs/date-slug";
@@ -24,7 +24,7 @@ const HomePage: React.FC<{
 }> = ({ params: { slugs } }) => {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const [wordCounts, setWordCounts] = useState<WordCount[]>([]);
-  const [isLoading, setLoading] = useRecoilState(isLoadingState);
+  const setLoading = useSetRecoilState(isLoadingState);
   const [error, setError] = useState("");
 
   const router = useRouter();
