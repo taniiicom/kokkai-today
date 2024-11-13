@@ -63,11 +63,7 @@ const HomePage: React.FC<{
   return (
     <Box height="100%" p={0}>
       <SidePanel />
-      {isLoading ? (
-        <Box pl="100px" pt={7}>
-          <Spinner mt={4} />
-        </Box>
-      ) : error ? (
+      {error ? (
         <Box
           width="100vw"
           height="90vh"
