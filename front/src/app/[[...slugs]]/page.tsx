@@ -11,7 +11,7 @@ import WordFlow from "@/components/WordFlow";
 import { isValidDateSlug } from "@/lib/slugs/date-slug";
 import { useRouter } from "next/navigation";
 import SidePanel from "@/components/org/SidePanel";
-import TitleShareArea from "@/components/org/ShareArea";
+import TitleShareArea from "@/components/org/TitleShareArea";
 
 interface WordCount {
   id: number;
