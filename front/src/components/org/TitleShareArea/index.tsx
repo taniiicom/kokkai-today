@@ -1,5 +1,5 @@
 import { selectedDateState } from "@/states/selectedDateState";
-import { Box, Text, Image, Button } from "@chakra-ui/react";
+import { Box, Text, Image, Button, useMediaQuery } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilState } from "recoil";
 import { IoShareSocialSharp, IoLogoTwitter } from "react-icons/io5";
@@ -15,6 +15,8 @@ type ShareData = {
 // [uiux][design][idea] クリックで Share API ^^
 const TitleShareArea: React.FC = () => {
   const [selectedDate] = useRecoilState(selectedDateState);
+  // [tips] PC/SP 出しわけ. chakra-ui の機能 ^^
+  const [isPC] = useMediaQuery("(min-width: 800px)");
 
   const shareData: ShareData = {
     title: `#国会Today : ${selectedDate}`,
@@ -45,10 +47,11 @@ const TitleShareArea: React.FC = () => {
       width="350px"
       height="170px"
       right="10px"
-      top="10px"
+      top={isPC ? "10px" : undefined}
+      bottom={isPC ? undefined : "10px"}
       borderRadius={30}
       zIndex="overlay"
-      bgColor="#ffffff00"
+      bgColor={isPC ? "#ffffff00" : "#ffffffee"}
       position="fixed"
       boxShadow="0px 6px 10px rgba(0, 0, 0, 0.15), 0px 1px 18px rgba(0, 0, 0, 0.1), 0px 3px 5px rgba(0, 0, 0, 0.2)"
       display="flex"
