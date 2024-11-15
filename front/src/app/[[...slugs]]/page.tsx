@@ -11,6 +11,7 @@ import WordFlow from "@/components/WordFlow";
 import { isValidDateSlug } from "@/lib/slugs/date-slug";
 import { useRouter } from "next/navigation";
 import SidePanel from "@/components/org/SidePanel";
+import TitleShareArea from "@/components/org/ShareArea";
 
 interface WordCount {
   id: number;
@@ -63,6 +64,8 @@ const HomePage: React.FC<{
   return (
     <Box height="100%" p={0}>
       <SidePanel />
+      <TitleShareArea />
+
       {error ? (
         <Box
           width="100vw"

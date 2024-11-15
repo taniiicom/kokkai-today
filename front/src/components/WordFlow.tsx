@@ -36,27 +36,6 @@ export default function WordFlow({ wordCounts }: WordFlowProps) {
         objectFit="cover"
         zIndex={1}
       />
-      <Image
-        src="kokkai-today_qr_2.png"
-        alt="National Diet Building"
-        position="absolute"
-        width="350px"
-        height="350px"
-        right="100px"
-        top="10px"
-        objectFit="cover"
-        zIndex={-1}
-      />
-      <Text
-        position="absolute"
-        right="190px"
-        top="330px"
-        zIndex={-1}
-        fontSize="30px"
-        fontFamily="Hiragino Kaku Gothic Pro, Meiryo, sans-serif" // 丸ゴシック系フォント
-      >
-        #国会Today
-      </Text>
 
       {/* 単語のアニメーション */}
       {wordCounts.map((wordCount, index) => {
