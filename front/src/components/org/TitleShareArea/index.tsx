@@ -1,7 +1,8 @@
 import { selectedDateState } from "@/states/selectedDateState";
-import { Box, Text, Image } from "@chakra-ui/react";
+import { Box, Text, Image, Button } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilState } from "recoil";
+import { IoShareSocialSharp, IoLogoTwitter } from "react-icons/io5";
 
 // ShareData 型定義
 type ShareData = {
@@ -35,6 +36,10 @@ const TitleShareArea: React.FC = () => {
     }
   };
 
+  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+    shareData.text + " #国会Today\n"
+  )}&url=${encodeURIComponent(shareData.url)}`;
+
   return (
     <Box
       width="350px"
@@ -57,14 +62,37 @@ const TitleShareArea: React.FC = () => {
         handleShare();
       }}
     >
-      <Box p="15px">
+      <Box
+        p="15px"
+        zIndex="overlay"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Box p="10px"></Box>
         <Text
           fontSize="23px"
           fontWeight="600"
           fontFamily="Hiragino Kaku Gothic Pro, Meiryo, sans-serif" // 丸ゴシック系フォント
+          alignItems="center"
         >
           #国会Today
         </Text>
+        <Box display="flex" flexDirection="row">
+          <Button
+            leftIcon={<IoLogoTwitter size="20px" />}
+            colorScheme="cyan"
+            variant="ghost"
+            onClick={() => window.open(twitterShareUrl, "_blank")}
+          >
+            Tweet
+          </Button>
+          <Button
+            leftIcon={<IoShareSocialSharp size="20px" />}
+            colorScheme="cyan"
+            variant="ghost"
+          ></Button>
+        </Box>
       </Box>
       <Image
         src="kokkai-today_qr_2.png"
@@ -72,7 +100,7 @@ const TitleShareArea: React.FC = () => {
         width="150px"
         height="150px"
         objectFit="cover"
-        zIndex={-1}
+        zIndex="overlay"
       />
     </Box>
   );
