@@ -139,7 +139,8 @@ const WordDiggingModal: React.FC = () => {
             borderRadius="20px"
             boxShadow="lg"
             overflow="hidden"
-            maxW="90vw"
+            w="90vw"
+            maxW="800px"
             maxH="80vh"
           >
             <MotionBox
