@@ -4,7 +4,6 @@ import { diggingWordState } from "@/states/diggingWordState"; // Recoil の状�
 import {
   Box,
   Text,
-  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -129,19 +128,18 @@ const WordDiggingModal: React.FC = () => {
             >
               <ModalHeader>Word Digging</ModalHeader>
               <ModalCloseButton />
-              <ModalBody overflowY="auto">
-                <Text fontSize="lg" fontWeight="bold" mb={4}>
-                  選択されたワード:
-                </Text>
-                <Text
-                  fontSize="xl"
-                  color="teal.500"
-                  textAlign="center"
-                  fontWeight="semibold"
-                  mb={4}
-                >
-                  {diggingWord}
-                </Text>
+              <ModalBody overflowY="auto" maxH="calc(80vh - 120px)">
+                <Box p={5}>
+                  <Text
+                    fontSize="40px"
+                    color="teal.500"
+                    textAlign="center"
+                    fontWeight="semibold"
+                    mb={4}
+                  >
+                    {diggingWord}
+                  </Text>
+                </Box>
                 {/* [uiux][design][animation] loading, 下からふわっと表示, リスト表示デザイン ^^ */}
                 {loading ? (
                   <Box textAlign="center">
@@ -188,11 +186,7 @@ const WordDiggingModal: React.FC = () => {
                     )}
                   </VStack>
                 )}
-                <Box mt={6} textAlign="center">
-                  <Button colorScheme="teal" onClick={handleClose}>
-                    Close
-                  </Button>
-                </Box>
+                <Box mt={6} textAlign="center"></Box>
               </ModalBody>
             </MotionBox>
           </ModalContent>
