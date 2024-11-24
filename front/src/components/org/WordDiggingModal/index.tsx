@@ -19,6 +19,12 @@ import { motion } from "framer-motion";
 import axios from "axios";
 
 // 型定義
+interface Character {
+  id: string;
+  name: string;
+  profile: string;
+}
+
 interface RecordItem {
   text: string; // 発言の内容
 }
@@ -26,7 +32,6 @@ interface RecordItem {
 interface RecordMeta {
   casts: string[]; // 発言者リスト
   castGroup?: string; // 発言者のグループ（例: 政党名）
-  creationTime: string; // 発言の日時
 }
 
 interface RecordData {
@@ -34,15 +39,18 @@ interface RecordData {
   meta: RecordMeta; // レコードのメタデータ
   items: RecordItem[]; // 発言のリスト
   issueID: string; // 国会会議のID
+  publishedAt: string; // 公開日時を追加
 }
 
 interface BookCard {
   id: string; // 書籍カードのID
+  publishedAt: string; // 公開日時
 }
 
 interface Result {
   bookCard: BookCard; // 書籍カード情報
   records: Omit<RecordData, "issueID">[]; // 会議の発言記録
+  characters: Record<string, Character>; // 発言者情報
 }
 
 interface ApiResponse {
@@ -53,6 +61,7 @@ const WordDiggingModal: React.FC = () => {
   const [diggingWord, setDiggingWord] = useRecoilState(diggingWordState); // 対象の状態を取得
   const [loading, setLoading] = useState(false); // ローディング状態
   const [records, setRecords] = useState<RecordData[]>([]); // 取得したレコードを格納
+  const [characters, setCharacters] = useState<Record<string, Character>>({}); // 発言者情報
 
   // [animation] ふわっと表示 ^^
   const MotionBox = motion(Box); // framer-motion を使用したアニメーション付きボックス
@@ -65,6 +74,16 @@ const WordDiggingModal: React.FC = () => {
   const handleClose = () => {
     setDiggingWord(""); // 状態をリセットして非表示にする
     setRecords([]); // レコードをクリア
+    setCharacters({}); // 発言者情報をクリア
+  };
+
+  // 日付を `yyyy/mm/dd` 形式にフォーマット
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // 月は 0 ベース
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}/${month}/${day}`;
   };
 
   // API からデータを取得する関数
@@ -83,13 +102,16 @@ const WordDiggingModal: React.FC = () => {
         const extractedRecords: RecordData[] = data.results.flatMap(
           (result) => {
             const issueID = result.bookCard.id.split(".").pop() || "unknown"; // issueID を抽出
+            const publishedAt = result.bookCard.publishedAt; // 公開日時を取得
             return result.records.map((record) => ({
               ...record,
               issueID,
+              publishedAt, // 各 record に publishedAt を追加
             }));
           }
         );
         setRecords(extractedRecords);
+        setCharacters(data.results[0]?.characters || {});
       }
     } catch (error) {
       console.error("データの取得に失敗しました", error);
@@ -152,6 +174,11 @@ const WordDiggingModal: React.FC = () => {
                       records.map((record) => {
                         const speechID = record.id; // speechID を取得
                         const link = `https://kokkai.bunko.jp/books/jp.go.ndl.kokkai.${record.issueID}#${speechID}`;
+                        const speakerId = record.meta.casts[0]; // 発言者ID
+                        const speakerName =
+                          characters[speakerId]?.name || "不明"; // 発言者名
+                        const formattedDate = formatDate(record.publishedAt); // 日付をフォーマット
+
                         return (
                           <Box
                             key={record.id}
@@ -162,18 +189,15 @@ const WordDiggingModal: React.FC = () => {
                           >
                             <HStack justify="space-between" mb={2}>
                               <Text fontSize="sm" color="gray.500">
-                                発言者: {record.meta.casts[0] || "不明"} (
-                                {record.meta.castGroup || "不明"})
+                                {speakerName} ({record.meta.castGroup || "不明"}
+                                )
                               </Text>
                               <Text fontSize="sm" color="gray.500">
-                                日時:{" "}
-                                {new Date(
-                                  record.meta.creationTime
-                                ).toLocaleDateString() || "不明"}
+                                {formattedDate}
                               </Text>
                             </HStack>
                             <Text fontSize="md" mb={2}>
-                              {record.items[0].text}
+                              {record.items[0]?.text || "発言内容なし"}
                             </Text>
                             <Link href={link} color="blue.500" isExternal>
                               詳細を見る
