@@ -1,8 +1,10 @@
 // components/WordFlow.tsx
 "use client";
 
+import { diggingWordState } from "@/states/diggingWordState";
 import { Box, Text, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
 
 interface WordCount {
   id: number;
@@ -17,6 +19,8 @@ interface WordFlowProps {
 const MotionBox = motion(Box);
 
 export default function WordFlow({ wordCounts }: WordFlowProps) {
+  const setDiggingWord = useSetRecoilState(diggingWordState);
+
   return (
     <Box
       position="relative"
@@ -35,6 +39,7 @@ export default function WordFlow({ wordCounts }: WordFlowProps) {
         height="700px" // 必要に応じて調整
         objectFit="cover"
         zIndex={1}
+        pointerEvents="none" // [uiux][tips] 画像がクリック判定を受けないようにする ^^
       />
 
       {/* 単語のアニメーション */}
@@ -59,12 +64,17 @@ export default function WordFlow({ wordCounts }: WordFlowProps) {
               repeat: Infinity,
             }}
             zIndex={0} // 単語が画像の上を流れるように
+            cursor="pointer" // [uiux][tips] 明示的にクリック可能であることを示す ^^
+            onClick={() => {
+              setDiggingWord(wordCount.word);
+            }}
           >
             <Text
               fontSize={`${fontSize}px`}
               fontWeight="bold"
               color={`rgba(0, 85, 200, ${randomOpacity})`} // ランダムな薄さの緑色
               fontFamily="Hiragino Kaku Gothic Pro, Meiryo, sans-serif" // 丸ゴシック系フォント
+              userSelect="none" // [uiux][tips] テキスト選択を無効化 ^^
             >
               {wordCount.word}
             </Text>

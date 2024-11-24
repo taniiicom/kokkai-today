@@ -12,6 +12,7 @@ import { isValidDateSlug } from "@/lib/slugs/date-slug";
 import { useRouter } from "next/navigation";
 import SidePanel from "@/components/org/SidePanel";
 import TitleShareArea from "@/components/org/TitleShareArea";
+import WordDiggingModal from "@/components/org/WordDiggingModal";
 
 interface WordCount {
   id: number;
@@ -65,6 +66,7 @@ const HomePage: React.FC<{
     <Box height="100%" p={0}>
       <SidePanel />
       <TitleShareArea />
+      <WordDiggingModal />
 
       {error ? (
         <Box
