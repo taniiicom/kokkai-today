@@ -19,10 +19,41 @@ import {
 import { motion } from "framer-motion";
 import axios from "axios";
 
+// 型定義
+interface RecordItem {
+  text: string; // 発言の内容
+}
+
+interface RecordMeta {
+  casts: string[]; // 発言者リスト
+  castGroup?: string; // 発言者のグループ（例: 政党名）
+  creationTime: string; // 発言の日時
+}
+
+interface RecordData {
+  id: string; // レコードのID
+  meta: RecordMeta; // レコードのメタデータ
+  items: RecordItem[]; // 発言のリスト
+  issueID: string; // 国会会議のID
+}
+
+interface BookCard {
+  id: string; // 書籍カードのID
+}
+
+interface Result {
+  bookCard: BookCard; // 書籍カード情報
+  records: Omit<RecordData, "issueID">[]; // 会議の発言記録
+}
+
+interface ApiResponse {
+  results: Result[]; // APIの検索結果
+}
+
 const WordDiggingModal: React.FC = () => {
   const [diggingWord, setDiggingWord] = useRecoilState(diggingWordState); // 対象の状態を取得
   const [loading, setLoading] = useState(false); // ローディング状態
-  const [records, setRecords] = useState<any[]>([]); // 取得したレコードを格納
+  const [records, setRecords] = useState<RecordData[]>([]); // 取得したレコードを格納
 
   // [animation] ふわっと表示 ^^
   const MotionBox = motion(Box); // framer-motion を使用したアニメーション付きボックス
@@ -39,23 +70,26 @@ const WordDiggingModal: React.FC = () => {
 
   // API からデータを取得する関数
   // [idea] `bunko.jp` さんとコラボ ^^
-  const fetchRecords = async (keyword: string) => {
+  const fetchRecords = async (keyword: string): Promise<void> => {
     setLoading(true);
     try {
-      const response = await axios.get(
+      const response = await axios.get<ApiResponse>(
         `https://api.bunko.jp/api/search/keyword?query=${encodeURIComponent(
           keyword
         )}&startsWith=jp.go.ndl.kokkai`
       );
+
       const data = response.data;
       if (data.results) {
-        const extractedRecords = data.results.flatMap((result: any) => {
-          const issueID = result.bookCard.id.split(".").pop(); // issueID を抽出
-          return result.records.map((record: any) => ({
-            ...record,
-            issueID,
-          }));
-        });
+        const extractedRecords: RecordData[] = data.results.flatMap(
+          (result) => {
+            const issueID = result.bookCard.id.split(".").pop() || "unknown"; // issueID を抽出
+            return result.records.map((record) => ({
+              ...record,
+              issueID,
+            }));
+          }
+        );
         setRecords(extractedRecords);
       }
     } catch (error) {
